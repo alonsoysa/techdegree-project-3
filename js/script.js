@@ -9,6 +9,7 @@ const $title = $('#title');
 const $titleOther = $('#other-title');
 const $design = $('#design');
 const $color = $('#color');
+const $payment = $('#payment');
 
 const hiddenClass = 'is-hidden';
 const defaultColorText = 'Please select a T-shirt theme';
@@ -94,3 +95,32 @@ $('.activities input[data-day-and-time]').on('change', function(){
         $('.activities input[data-day-and-time="' + $time + '"]').removeAttr('disabled');
     }
 });
+
+/*
+    Step 5: Payment Info
+*/
+
+// hide payment div
+$('.paypal, .bitcoin, .credit-card').addClass(hiddenClass);
+
+$payment.on('change', function(){
+
+    // get the current target class
+    // use regex to replace spaces with -
+    const $targetClass = '.' + $(this).val()
+                                .toLowerCase()
+                                .replace(/\s/, '-');
+    
+    // remove hidden class from targeted div
+    $($targetClass)
+        .removeClass(hiddenClass)
+        .siblings('div')
+            .addClass(hiddenClass);
+   
+});
+
+// remove the default option. We don't want users to pick it
+$payment.find('option').first().remove();
+
+// activate the default payment method
+$payment.val('Credit Card').trigger('change');
