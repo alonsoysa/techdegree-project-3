@@ -79,5 +79,18 @@ $design.on('change', function(){
 
 
 /*
-    Step 4: Job Role
+    Step 4: Register for Activities
 */
+$('.activities input[data-day-and-time]').on('change', function(){
+    
+    const $this = $(this);
+    const $time = $this.attr('data-day-and-time');
+
+    // disable any matching day and time
+    // otherwise restore it
+    if ( $this.is(':checked') ) {
+        $('.activities input[data-day-and-time="' + $time + '"]:not(:checked)').attr('disabled', true);
+    } else {
+        $('.activities input[data-day-and-time="' + $time + '"]').removeAttr('disabled');
+    }
+});
