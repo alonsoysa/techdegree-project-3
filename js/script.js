@@ -5,15 +5,43 @@ project 3 - Interactive Form
 ******************************************/
 
 const $name = $('#name');
+const $email = $('#mail');
 const $title = $('#title');
 const $titleOther = $('#other-title');
 const $design = $('#design');
 const $color = $('#color');
 const $payment = $('#payment');
+const $ccNum = $('#cc-num');
+const $ccZip = $('#zip');
+const $activities = $('.activities input[type="checkbox"]');
 
+// Options
 const hiddenClass = 'is-hidden';
 const defaultColorText = 'Please select a T-shirt theme';
 
+// Validation settings
+// Credit validation regex from:
+//https://stackoverflow.com/questions/40775674/credit-card-input-validation-using-regular-expression-in-javascript
+//https://medium.com/hootsuite-engineering/a-comprehensive-guide-to-validating-and-formatting-credit-cards-b9fa63ec7863
+// Email validaiton from
+//https://emailregex.com/
+const validation = {
+    required: 'This field is required',
+    name : [],
+    email: [
+        {
+            regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+            message: 'Sorry the email is not valid'
+        }
+    ],
+    card: {
+        visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+        mastercard: /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/,
+        amex: /^3[47][0-9]{13}$/,
+        discovery: /^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/
+    },
+    zip: /(^\d{5}$)|(^\d{5}-\d{4}$)/
+};
 
 /*
     Step 1: Set focus on the first text field
@@ -124,3 +152,113 @@ $payment.find('option').first().remove();
 
 // activate the default payment method
 $payment.val('Credit Card').trigger('change');
+
+
+/*
+    Step 6: Form validation
+*/
+const validateField = ($field, $validations) => {
+    const string = $field.val().toLowerCase();
+
+    if( !string ) {
+        console.log(validation.required);
+        return false;
+    }
+
+    for (let i = 0; i < $validations.length; i++){
+        if ( !$validations[i].regex.test(string) ) {
+            console.log($validations[i].message);
+            return false;
+        }
+    }
+
+    console.log('good');
+    return true;
+};
+
+const validateActivities = () => {
+    $activities.each(function () {
+        if ($(this).is(':checked')) {
+            $valid = true;
+        }
+    });
+    return false;
+};
+
+const validateCard = () => {
+
+    const $ccNumVal = $ccNum.val();
+
+    if ( !$ccNumVal ) {
+        console.log(validation.required);
+        return false;
+    }
+
+    const isVisa = validation.card.visa.test($ccNumVal) === true;
+    const isMast = validation.card.mastercard.test($ccNumVal) === true;
+    const isAmex = validation.card.amex.test($ccNumVal) === true;
+    const isDisc = validation.card.discovery.test($ccNumVal) === true;
+
+    if (isVisa || isMast || isAmex || isDisc) {
+        // at least one regex matches, so the card number is valid.
+
+        if (isVisa) {
+            // Visa-specific logic goes here
+            console.log('Visa Good');
+        }
+        else if (isMast) {
+            // Mastercard-specific logic goes here
+            console.log('Mastercard Good');
+        }
+        else if (isAmex) {
+            // AMEX-specific logic goes here
+            console.log('Amex Good');
+        }
+        else if (isDisc) {
+            // Discover-specific logic goes here
+            console.log('Discovery Good');
+        }
+
+        return true;
+
+    } else {
+        console.log('Not valid');
+        return false;
+    }
+};
+
+const validateZip = () => {
+    console.log($ccZip.val());
+    if (validation.zip.test($ccZip.val() )) {
+        console.log('good zip');
+        return true;
+    } else {
+        console.log('bad zip');
+        return false;
+    }
+};
+
+const validateCredit = () => {
+    if ( $payment.val() === 'Credit Card' ) {
+
+        validateCard();
+        validateZip();
+
+    } else {
+        return true;
+    }
+};
+
+$('form').submit(function (event) {
+
+    // prevent refresh
+    event.preventDefault();
+
+    //validateField($name, validation.name);
+    //validateField($email, validation.email);
+    //validateActivities();
+
+
+    validateCredit();
+    
+});
