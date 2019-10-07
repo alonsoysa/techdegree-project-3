@@ -67,8 +67,8 @@ button {
 legend {
 	font-weight: bold;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
 	margin-bottom: 1.125em;
+	color: #000;
 }
 
 input[type="text"],
@@ -99,9 +99,14 @@ input {
 }
 
 input:focus {
-	border: 1px solid #007c89;
-	box-shadow: inset 0 0 0 1px #007c89;
+	border: 1px solid #000;
+	box-shadow: inset 0 0 0 1px #000;
 	transition: border-color .4s, background-color .4s;
+}
+
+input.error {
+	background: rgb(242, 112, 156, 0.1);
+	border: 1px solid rgb(242, 112, 156) !important;
 }
 
 input[type="checkbox"],
@@ -133,6 +138,20 @@ option {
 /* ================================= 
   Page Styles
 ==================================== */
+
+select {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0px;
+	width: 100%;
+	font-size: 1em;
+	font-weight: 500;
+	padding: .95em;
+	background: #fff;
+	border: 1px solid rgba(36, 28, 21, 0.3);
+	border-radius: 2px;
+	outline: none;
+	cursor: pointer;
+}
 
 .container {
 	margin: auto;
@@ -224,3 +243,11 @@ option {
 /* ================================= 
   New Styles
 ==================================== */
+
+.error-field {
+	color: rgb(242, 112, 156);
+	font-size: 0.7em;
+	position: relative;
+	top: -10px;
+	margin-bottom: 10px;
+}

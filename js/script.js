@@ -19,6 +19,16 @@ const $activities = $('.activities input[type="checkbox"]');
 const hiddenClass = 'is-hidden';
 const defaultColorText = 'Please select a T-shirt theme';
 
+const options = {
+    errorPre : 'error-field--',
+    errorClass : 'error'
+};
+
+const regex = {
+    email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+};
+
+
 // Validation settings
 // Credit validation regex from:
 //https://stackoverflow.com/questions/40775674/credit-card-input-validation-using-regular-expression-in-javascript
@@ -249,16 +259,65 @@ const validateCredit = () => {
     }
 };
 
+const buildErrorHTML = ($field, string) => {
+    const label = $field.prev().text().toLowerCase();
+    let html = '<div class="error-field" ';
+        html += 'id="' + options.errorPre + label + '">  ';
+        html += string + ' ' + label + '</div>';
+
+    if ($field.hasClass(options.errorClass)) {
+        $('#' + options.errorPre + label).remove();
+    }
+
+    $field.addClass(options.errorClass);
+    $(html).insertAfter($field);
+};
+
+const destroyErrorHTML = ($field) => {
+    const label = $field.prev().text().toLowerCase();
+    $field.removeClass(options.errorClass);
+    $('#' + options.errorPre + label).remove();
+}
+
+const validateName = () => {
+    if ($name.val() === '') {
+        buildErrorHTML($name, 'Please enter your');
+    } else {
+        destroyErrorHTML($name);
+    }
+}
+
+const validateEmail = () => {
+    $val = $email.val();
+    if ($val === '') {
+        buildErrorHTML($email, 'Please enter your');
+    } else if (!regex.email.test($val) ) {
+        buildErrorHTML($email, 'Please enter a valid');
+    } else {
+        destroyErrorHTML($email);
+    }
+}
+
+$name.on('keyup', function () {
+    validateName();
+});
+
+$email.on('keyup', function () {
+    validateEmail();
+});
+
 $('form').submit(function (event) {
 
     // prevent refresh
     event.preventDefault();
+
+    const validName = validateName();
 
     //validateField($name, validation.name);
     //validateField($email, validation.email);
     //validateActivities();
 
 
-    validateCredit();
+    //validateCredit();
     
 });
