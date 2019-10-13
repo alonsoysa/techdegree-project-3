@@ -104,7 +104,8 @@ input:focus {
 	transition: border-color .4s, background-color .4s;
 }
 
-input.error {
+input.error,
+select.error {
 	background: rgb(242, 112, 156, 0.1);
 	border: 1px solid rgb(242, 112, 156) !important;
 }

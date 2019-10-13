@@ -13,11 +13,16 @@ const $color = $('#color');
 const $payment = $('#payment');
 const $ccNum = $('#cc-num');
 const $ccZip = $('#zip');
+const $ccCVV = $('#cvv');
 const $activities = $('.activities input[type="checkbox"]');
+const $activitiesHeading = $('.activities legend');
+const $tshirtColor = $('#colors-js-puns');
 
 // Options
 const hiddenClass = 'is-hidden';
 const defaultColorText = 'Please select a T-shirt theme';
+
+let typeOfCreditCard = '';
 
 const options = {
     errorPre : 'error-field--',
@@ -25,8 +30,15 @@ const options = {
 };
 
 const regex = {
-    email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    numbers: /^\d+$/
 };
+
+
+// helpers
+
+$ccNum.attr('maxlength', 16);
+$ccZip.attr('maxlength', 5);
 
 
 // Validation settings
@@ -72,6 +84,7 @@ $title.on('change', function(){
         $titleOther.removeClass(hiddenClass).focus();
     } else {
         $titleOther.addClass(hiddenClass);
+        destroyErrorHTML($titleOther);
     }
 });
 
@@ -79,6 +92,9 @@ $title.on('change', function(){
 /*
     Step 3: T-Shirt Info
 */
+
+// Hide
+$tshirtColor.addClass(hiddenClass);
 
 // Adds default color option
 const defaultColourOption = '<option>' + defaultColorText + '</option>';
@@ -98,6 +114,14 @@ $design.on('change', function(){
     
 
     // loops and activates only those with the matching text
+    if ($value === 'Select Theme') {
+        $tshirtColor.addClass(hiddenClass);
+        validateDesign();
+    } else {
+        $tshirtColor.removeClass(hiddenClass);
+        destroyErrorHTML($design);
+    }
+
     $('#color option').each(function(){
         let $this = $(this);
         if ( $this.is(':contains('+$value+')') )  {
@@ -120,18 +144,23 @@ $design.on('change', function(){
 /*
     Step 4: Register for Activities
 */
-$('.activities input[data-day-and-time]').on('change', function(){
+$('.activities input').on('change', function(){
     
     const $this = $(this);
     const $time = $this.attr('data-day-and-time');
 
-    // disable any matching day and time
-    // otherwise restore it
-    if ( $this.is(':checked') ) {
-        $('.activities input[data-day-and-time="' + $time + '"]:not(:checked)').attr('disabled', true);
-    } else {
-        $('.activities input[data-day-and-time="' + $time + '"]').removeAttr('disabled');
+    validateActivities();
+
+    if ( $time ) {
+        // disable any matching day and time
+        // otherwise restore it
+        if ($this.is(':checked')) {
+            $('.activities input[data-day-and-time="' + $time + '"]:not(:checked)').attr('disabled', true);
+        } else {
+            $('.activities input[data-day-and-time="' + $time + '"]').removeAttr('disabled');
+        }
     }
+    
 });
 
 /*
@@ -186,109 +215,161 @@ const validateField = ($field, $validations) => {
     return true;
 };
 
-const validateActivities = () => {
-    $activities.each(function () {
-        if ($(this).is(':checked')) {
-            $valid = true;
-        }
-    });
-    return false;
-};
+
 
 const validateCard = () => {
 
-    const $ccNumVal = $ccNum.val();
-
-    if ( !$ccNumVal ) {
-        console.log(validation.required);
-        return false;
+    if ($payment.val() !== 'Credit Card') {
+        return true;
     }
 
+    const $ccNumVal = $ccNum.val();
     const isVisa = validation.card.visa.test($ccNumVal) === true;
     const isMast = validation.card.mastercard.test($ccNumVal) === true;
     const isAmex = validation.card.amex.test($ccNumVal) === true;
     const isDisc = validation.card.discovery.test($ccNumVal) === true;
+    
+    if (!$ccNumVal) {
+        buildErrorHTML($ccNum, 'Please enter a credit');
+        return false;
+    }
 
+    if ( !regex.numbers.test($ccNumVal) ) {
+        buildErrorHTML($ccNum, 'Please don\'t add letters or symbols in your credit');
+        return false;
+    }
+
+    if ( !($ccNumVal.length >= 13 &&$ccNumVal.length <= 16) ) {
+        buildErrorHTML($ccNum, 'Please enter a number that is between 13 and 16 digits long');
+        return false;
+    }
+    
     if (isVisa || isMast || isAmex || isDisc) {
         // at least one regex matches, so the card number is valid.
+        destroyErrorHTML($ccNum);
 
         if (isVisa) {
-            // Visa-specific logic goes here
-            console.log('Visa Good');
+            typeOfCreditCard = 'visa';
         }
         else if (isMast) {
-            // Mastercard-specific logic goes here
-            console.log('Mastercard Good');
+            typeOfCreditCard = 'mast';
         }
         else if (isAmex) {
-            // AMEX-specific logic goes here
-            console.log('Amex Good');
+            typeOfCreditCard = 'amex';
         }
         else if (isDisc) {
-            // Discover-specific logic goes here
-            console.log('Discovery Good');
+            typeOfCreditCard = 'disc';
         }
 
-        return true;
+        validateCVV();
 
     } else {
-        console.log('Not valid');
-        return false;
+        buildErrorHTML($ccNum, 'Please enter a valid credit');
+        typeOfCreditCard = '';
     }
 };
 
 const validateZip = () => {
-    console.log($ccZip.val());
-    if (validation.zip.test($ccZip.val() )) {
-        console.log('good zip');
+
+    if ($payment.val() !== 'Credit Card') {
         return true;
-    } else {
-        console.log('bad zip');
+    }
+
+    const $ccZipVal = $ccZip.val();
+
+    if (!$ccZipVal) {
+        buildErrorHTML($ccZip, 'Please enter your');
         return false;
     }
+
+    if (!validation.zip.test($ccZipVal)) {
+        buildErrorHTML($ccZip, 'Please enter a valid');
+        return false;
+    } else {
+        destroyErrorHTML($ccZip);
+    }
 };
 
-const validateCredit = () => {
-    if ( $payment.val() === 'Credit Card' ) {
+const validateCVV = () => {
 
-        validateCard();
-        validateZip();
-
-    } else {
+    if ($payment.val() !== 'Credit Card') {
         return true;
     }
+
+    const $ccCVVVal = $ccCVV.val();
+
+    if (!$ccCVVVal) {
+        buildErrorHTML($ccCVV, 'Please enter your');
+        return false;
+    }
+
+    if (typeOfCreditCard === 'amex') {
+        if ($ccCVVVal.length === 4) {
+            destroyErrorHTML($ccCVV);
+        } else {
+            buildErrorHTML($ccCVV, 'Please enter a valid');
+            return false;
+        }
+    } else {
+        if ($ccCVVVal.length === 3) {
+            destroyErrorHTML($ccCVV);
+        } else {
+            buildErrorHTML($ccCVV, 'Please enter a valid');
+            return false;
+        }
+    }
+
+    
 };
 
-const buildErrorHTML = ($field, string) => {
-    const label = $field.prev().text().toLowerCase();
-    let html = '<div class="error-field" ';
-        html += 'id="' + options.errorPre + label + '">  ';
-        html += string + ' ' + label + '</div>';
 
-    if ($field.hasClass(options.errorClass)) {
-        $('#' + options.errorPre + label).remove();
+const buildErrorHTML = ($field, string, custom) => {
+    const label = $field.prevAll('label').first().text().toLowerCase();
+    const id = label.replace(/\s+/g, '-');
+    let html = '<div class="error-field" ';
+
+    if ( custom ) {
+        html += 'id="' + options.errorPre + custom + '">';
+        html += string + '</div>';
+
+        $('#' + options.errorPre + custom).remove();
+    } else {
+        html += 'id="' + options.errorPre + id + '">';
+        html += string + ' ' +label + '</div>';
+
+        $('#' + options.errorPre + id).remove();
     }
+
+    
 
     $field.addClass(options.errorClass);
     $(html).insertAfter($field);
 };
 
-const destroyErrorHTML = ($field) => {
-    const label = $field.prev().text().toLowerCase();
+
+const destroyErrorHTML = ($field, custom) => {
+    if (custom) {
+        $('#' + options.errorPre + custom).remove();
+    } else {
+        const id = $field.prevAll('label').first().text().replace(/\s+/g, '-').toLowerCase();
+        $('#' + options.errorPre + id).remove();
+    }
     $field.removeClass(options.errorClass);
-    $('#' + options.errorPre + label).remove();
+    
 }
 
 const validateName = () => {
     if ($name.val() === '') {
         buildErrorHTML($name, 'Please enter your');
+        return false;
     } else {
         destroyErrorHTML($name);
     }
+    return true;
 }
 
 const validateEmail = () => {
-    $val = $email.val();
+    const $val = $email.val();
     if ($val === '') {
         buildErrorHTML($email, 'Please enter your');
     } else if (!regex.email.test($val) ) {
@@ -298,6 +379,38 @@ const validateEmail = () => {
     }
 }
 
+const validateTitle = () => {
+    if ($title.val() === 'other' && $titleOther.val() === '') {
+        buildErrorHTML($titleOther, 'Please enter your');
+    } else {
+        destroyErrorHTML($titleOther);
+    }
+};
+
+const validateDesign = () => {
+    if ($design.val() === 'Select Theme') {
+        buildErrorHTML($design, 'Please select your');
+    } else {
+        destroyErrorHTML($design);
+    }
+};
+
+const validateActivities = () => {
+    let $valid = false;
+
+    $activities.each(function () {
+        if ($(this).is(':checked')) {
+            $valid = true;
+        }
+    });
+
+    if ( !$valid ) {
+        buildErrorHTML($activitiesHeading, 'Please select at least one activity', 'custom-activity');
+    } else {
+        destroyErrorHTML($activitiesHeading, 'custom-activity');
+    }
+};
+
 $name.on('keyup', function () {
     validateName();
 });
@@ -306,18 +419,45 @@ $email.on('keyup', function () {
     validateEmail();
 });
 
+$titleOther.on('keyup', function () {
+    validateTitle();
+});
+
+$ccNum.on('keyup', function () {
+    validateCard();
+});
+
+$ccZip.on('keyup', function () {
+    validateZip();
+});
+
+$ccCVV.on('keyup', function () {
+    validateCVV();
+});
+
 $('form').submit(function (event) {
 
     // prevent refresh
     event.preventDefault();
 
-    const validName = validateName();
+    validateName();
+    validateEmail();
+    validateTitle();
+    validateDesign();
+    validateActivities();
+    validateCard();
+    validateZip();
+    validateCVV();
 
-    //validateField($name, validation.name);
-    //validateField($email, validation.email);
-    //validateActivities();
+    $error = $('.error').first();
 
-
-    //validateCredit();
+    if ($error) {
+        $('html, body').animate({
+            scrollTop: ($error.offset().top - 40)
+        }, 500);
+        return false;
+    } else {
+        console.log('ALL GOOD');
+    }
     
 });
