@@ -29,9 +29,17 @@ const options = {
     errorClass : 'error'
 };
 
+// Credit validation regex from:
+//https://stackoverflow.com/questions/40775674/credit-card-input-validation-using-regular-expression-in-javascript
+//https://medium.com/hootsuite-engineering/a-comprehensive-guide-to-validating-and-formatting-credit-cards-b9fa63ec7863
 const regex = {
     email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    numbers: /^\d+$/
+    numbers: /^\d+$/,
+    zip: /(^\d{5}$)|(^\d{5}-\d{4}$)/,
+    visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+    mastercard: /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/,
+    amex: /^3[47][0-9]{13}$/,
+    discovery: /^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/
 };
 
 
@@ -41,29 +49,6 @@ $ccNum.attr('maxlength', 16);
 $ccZip.attr('maxlength', 5);
 
 
-// Validation settings
-// Credit validation regex from:
-//https://stackoverflow.com/questions/40775674/credit-card-input-validation-using-regular-expression-in-javascript
-//https://medium.com/hootsuite-engineering/a-comprehensive-guide-to-validating-and-formatting-credit-cards-b9fa63ec7863
-// Email validaiton from
-//https://emailregex.com/
-const validation = {
-    required: 'This field is required',
-    name : [],
-    email: [
-        {
-            regex: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            message: 'Sorry the email is not valid'
-        }
-    ],
-    card: {
-        visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-        mastercard: /^5[1-5][0-9]{14}$|^2(?:2(?:2[1-9]|[3-9][0-9])|[3-6][0-9][0-9]|7(?:[01][0-9]|20))[0-9]{12}$/,
-        amex: /^3[47][0-9]{13}$/,
-        discovery: /^65[4-9][0-9]{13}|64[4-9][0-9]{13}|6011[0-9]{12}|(622(?:12[6-9]|1[3-9][0-9]|[2-8][0-9][0-9]|9[01][0-9]|92[0-5])[0-9]{10})$/
-    },
-    zip: /(^\d{5}$)|(^\d{5}-\d{4}$)/
-};
 
 /*
     Step 1: Set focus on the first text field
@@ -193,41 +178,18 @@ $payment.find('option').first().remove();
 $payment.val('Credit Card').trigger('change');
 
 
-/*
-    Step 6: Form validation
-*/
-const validateField = ($field, $validations) => {
-    const string = $field.val().toLowerCase();
-
-    if( !string ) {
-        console.log(validation.required);
-        return false;
-    }
-
-    for (let i = 0; i < $validations.length; i++){
-        if ( !$validations[i].regex.test(string) ) {
-            console.log($validations[i].message);
-            return false;
-        }
-    }
-
-    console.log('good');
-    return true;
-};
-
-
-
 const validateCard = () => {
 
     if ($payment.val() !== 'Credit Card') {
+        destroyErrorHTML($ccNum);
         return true;
     }
 
     const $ccNumVal = $ccNum.val();
-    const isVisa = validation.card.visa.test($ccNumVal) === true;
-    const isMast = validation.card.mastercard.test($ccNumVal) === true;
-    const isAmex = validation.card.amex.test($ccNumVal) === true;
-    const isDisc = validation.card.discovery.test($ccNumVal) === true;
+    const isVisa = regex.visa.test($ccNumVal) === true;
+    const isMast = regex.mastercard.test($ccNumVal) === true;
+    const isAmex = regex.amex.test($ccNumVal) === true;
+    const isDisc = regex.discovery.test($ccNumVal) === true;
     
     if (!$ccNumVal) {
         buildErrorHTML($ccNum, 'Please enter a credit');
@@ -272,6 +234,7 @@ const validateCard = () => {
 const validateZip = () => {
 
     if ($payment.val() !== 'Credit Card') {
+        destroyErrorHTML($ccZip);
         return true;
     }
 
@@ -282,7 +245,7 @@ const validateZip = () => {
         return false;
     }
 
-    if (!validation.zip.test($ccZipVal)) {
+    if (!regex.zip.test($ccZipVal)) {
         buildErrorHTML($ccZip, 'Please enter a valid');
         return false;
     } else {
@@ -293,6 +256,7 @@ const validateZip = () => {
 const validateCVV = () => {
 
     if ($payment.val() !== 'Credit Card') {
+        destroyErrorHTML($ccCVV);
         return true;
     }
 
@@ -451,7 +415,7 @@ $('form').submit(function (event) {
 
     $error = $('.error').first();
 
-    if ($error) {
+    if ($error.length) {
         $('html, body').animate({
             scrollTop: ($error.offset().top - 40)
         }, 500);
