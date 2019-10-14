@@ -16,9 +16,13 @@ button {
 
 body {
 	font: 1em/1.5;
-	color: rgba(6, 49, 68, 0.9);
+	color: #000;
 	background: #fff;
 	overflow-x: hidden;
+}
+
+p {
+	line-height: 1.5;
 }
 
 header {
@@ -118,16 +122,15 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #083f57;
+	background: rgb(242, 112, 156);
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
-	border: 2px solid black;
 	border-radius: 4px;
 	transition: all 0.5s;
 }
 
 button:hover {
-	background: #6F9DDC;
+	background: rgb(255, 148, 114);
 }
 
 input, 
@@ -412,7 +415,7 @@ select {
 	bottom: 0;
 	background: #fff;
 	padding: 0.85em;
-	color: #000;
+	color: rgb(242, 112, 156);
 	z-index: 10;
 	display: flex;
 	align-items: center;
@@ -463,7 +466,7 @@ select {
 	top: 0.576rem;
 	font-size: 0.576em;
 	color: #fff;
-	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
 	opacity: 1;
 	transition: all 0.3s ease-out;
 }
@@ -478,7 +481,7 @@ select {
 	top: 1.12rem;
 	font-size: 0.76rem;
 	color: #fff;
-	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
 	opacity: 0;
 	transition: all 0.3s ease-out;
 }
