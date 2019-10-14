@@ -147,7 +147,9 @@ select {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .95em;
-	background: #fff;
+	padding-right: calc(4% + 0.95em);
+	background: url(../img/caret.png) 96% 50% no-repeat #fff;
+	background-size: 12px auto;
 	border: 1px solid rgba(36, 28, 21, 0.3);
 	border-radius: 2px;
 	outline: none;
@@ -251,4 +253,449 @@ select {
 	position: relative;
 	top: -10px;
 	margin-bottom: 10px;
+}
+
+.shirt > div {
+	width: 50%;
+	margin: 0;
+	padding-right: 0.85em;;
+}
+.shirt > div:nth-child(odd) {
+	padding-right: 0;
+}
+
+#colors-js-puns:not(.is-hidden) {
+	width: 100%;
+	padding-right: 0;
+	justify-content: space-between;
+	align-items: center;
+	display: flex;
+}
+
+.shirt div.colors-js-puns-field {
+	float: none;
+	margin: 0;
+	flex: 1;
+}
+
+#color-js-puns-preview {
+	width: 90px;
+	padding-left: 10px;
+	height: 80px;
+	margin: auto;
+	float: none;
+}
+#color-js-puns-shirt {
+	float: none;
+	margin: 0;
+	position: relative;
+	background: tomato;
+}
+#color-js-puns-shirt::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(45deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+	z-index: 5;
+}
+#color-js-puns-shirt::after {
+	content: "How do you comfort a JavaScript bug? a. You console it";
+	display: block;
+	color: #fff;
+	position: absolute;
+	left: 0; 
+	right: 0;
+	top: 25px;
+	font-size: 8px;
+	text-align: center;
+	z-index: 6;
+}
+#color-js-puns-shirt img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	position: relative;
+	z-index: 10;
+}
+
+.activities-inner {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -0.425em;
+}
+
+.activities-inner hr {
+	display: block;
+	width: 100%;
+	margin: 0.95em 0.425em;
+	border: 0;
+	border-top: 1px dotted rgba(36, 28, 21, 0.3);
+}
+
+
+.activities-block {
+	width: 50%;
+	clear: none;
+	display: block;
+	padding: 0.425em;
+}
+.activities-block:first-child {
+	width: 100%;
+}
+
+.activities-block input {
+	display: none;
+}
+
+.activities-block  label {
+	display: block;
+	cursor: pointer;
+	margin: 0;
+}
+.activity-card {
+	border: 1px solid rgba(36, 28, 21, 0.3);
+	border-radius: 2px;
+	margin: 0;
+}
+.activities-block input:checked+.activity-card {
+	border-color: rgb(242, 112, 156);
+}
+.activity-card__header {
+	padding: 0.85em;
+	height: 140px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	transition: all 0.3s ease-out;
+	border-bottom: 1px solid rgba(36, 28, 21, 0.3);
+	position: relative;
+}
+
+.activities-block input:checked+.activity-card .activity-card__header {
+	background: linear-gradient(90deg, rgb(242, 112, 156) 20px, transparent 1%) 50% -50%,
+	linear-gradient(rgb(242, 112, 156) 20px, transparent 1%) 50% -50%,
+	rgb(255, 148, 114);
+	background-size: 22px 22px;
+	color: #fff;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
+	border-color: rgb(242, 112, 156);
+}
+.activity-card__header__title {
+	font-size: 16px;
+	margin-bottom: 10px;
+}
+.activity-card__header__date {
+	font-size: 12px;
+}
+.activity-card__footer {
+	background: #fff;
+	padding: 0.85em;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+}
+.activities-block input[disabled]+div .activity-card__footer::before {
+	content: "Time block already chosen";
+	display: block;
+	position: absolute;
+	font-size: 14px;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: #fff;
+	padding: 0.85em;
+	color: #000;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.activity-card__footer__price {
+	line-height: 1;	
+}
+
+
+.activities-block input[disabled]+div {
+	opacity: 0.5;
+	cursor: not-allowed;
+	position: relative;
+}
+
+
+#background {
+	width: inherit;
+	height: inherit;
+	border: none;
+	border-radius: inherit;
+	background: linear-gradient(to right, rgb(242, 112, 156), rgb(255, 148, 114));
+	opacity: 0;
+	-webkit-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+.activities-block input:checked+.activity-card #background {
+	opacity: 1;
+}
+.check-label {
+	display: block;
+	width: 12.25rem;
+	width: 5.2rem;
+	height: 1.76rem;
+	border: none;
+	border-radius: 0.96rem;
+	background: #d7d7d7;
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+}
+.check-label::before {
+	content: 'Not Going';
+	position: absolute;
+	left: 1.856rem;
+	top: 0.576rem;
+	font-size: 0.576em;
+	color: #fff;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
+	opacity: 1;
+	transition: all 0.3s ease-out;
+}
+.activities-block input:checked+.activity-card .check-label::before {
+	opacity: 0;
+}
+.check-label::after {
+	content: 'Going';
+	position: absolute;
+	text-transform: uppercase;
+	left: 0rem;
+	top: 1.12rem;
+	font-size: 0.76rem;
+	color: #fff;
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65);
+	opacity: 0;
+	transition: all 0.3s ease-out;
+}
+.activities-block input:checked+.activity-card .check-label::after {
+	opacity: 1;
+	top: 0.6rem;
+	left: 0.7rem;
+}
+.face {
+	display: block;
+	position: absolute;
+	content: '';
+	top: 0.144rem;
+	bottom: 0;
+	right: 3.6rem;
+	width: 1.44rem;
+	height: 1.44rem;
+	margin: 0;
+	border: none;
+	border-radius: 0.96rem;
+	background: -webkit-linear-gradient(45deg, #dedede 0%, #fff 70%);
+	background: -o-linear-gradient(45deg, #dedede 0%, #fff 70%);
+	background: linear-gradient(45deg, #dedede 0%, #fff 70%);
+	-webkit-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	overflow: hidden;
+}
+
+.face-container {
+	position: absolute;
+	width: 1.44rem;
+	height: 1.44rem;
+	-webkit-animation: rotateElementReverse forwards 0.3s;
+	animation: rotateElementReverse forwards 0.3s;
+}
+
+.face {
+	-webkit-box-shadow: 0 0.096rem 0.096rem 0 rgba(0, 0, 0, 0.25);
+	box-shadow: 0 0.096rem 0.096rem 0 rgba(0, 0, 0, 0.25);
+}
+
+.eye {
+	position: absolute;
+	top: 0.72rem;
+	height: 0.08rem;
+	height: 0.06rem;
+	width: 0.2rem;
+	background: #8e8e8e;
+	border-radius: 0 0 100% 50%;
+}
+
+.eye.left {
+	left: 0.24rem;
+	-webkit-animation: changeFaceReverse forwards 0.3s;
+	animation: changeFaceReverse forwards 0.3s;
+}
+.eye.right {
+	left: 0.68rem;
+	-webkit-animation: changeFaceReverse forwards 0.3s;
+	animation: changeFaceReverse forwards 0.3s;
+}
+
+.mouth {
+	position: absolute;
+	top: 1rem;
+	left: 0.464rem;
+	width: 0.152rem;
+	height: 0.08rem;
+	background: #8e8e8e;
+	border-radius: 40% 40% 100% 50%;
+	-webkit-animation: changeMouthReverse forwards 0.3s;
+	animation: changeMouthReverse forwards 0.3s;
+}
+
+
+.activities-block input:checked+.activity-card .face {
+	right: 0.2rem;
+}
+
+.activities-block input:checked+.activity-card .face-container {
+	-webkit-animation: rotateElement forwards 0.3s;
+	animation: rotateElement forwards 0.3s;
+}
+.activities-block input:checked+.activity-card .eye.left,
+.activities-block input:checked+.activity-card .eye.right {
+	-webkit-animation: changeFace forwards 0.3s 0.075s;
+	animation: changeFace forwards 0.3s 0.075s;
+}
+
+.activities-block input:checked+.activity-card .mouth {
+	-webkit-animation: changeMouth forwards 0.3s 0.075s;
+	animation: changeMouth forwards 0.3s 0.075s;
+}
+
+.activities-block input:checked+.activity-card .eye.left {
+	left: 0.32rem;
+}
+
+.activities-block input:checked+.activity-card .eye.right {
+	left: 0.8rem;
+}
+/* transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95); */
+/* transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55); */
+
+
+
+@keyframes rotateElement {
+	0% {
+		left: 0;
+	}
+
+	25% {
+		left: 1.28rem;
+	}
+
+	30% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0;
+		left: -1.28rem;
+	}
+
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		left: 0.32rem;
+		opacity: 1;
+	}
+}
+
+@keyframes changeFace {
+	100% {
+		top: 0.544rem;
+		width: 0.13rem;
+		height: 0.13rem;
+		background: #8e8e8e;
+		border: none;
+		border-radius: 50%;
+	}
+}
+
+@keyframes changeMouth {
+	100% {
+		top: 0.916rem;
+		left: 0.26rem;
+		height: 0.28rem;
+		width: 0.62rem;
+		background: #8e8e8e;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#8e8e8e), to(#a4a4a4));
+		background-image: -webkit-linear-gradient(top, #8e8e8e, #a4a4a4);
+		background-image: -o-linear-gradient(top, #8e8e8e, #a4a4a4);
+		background-image: linear-gradient(to bottom, #8e8e8e, #a4a4a4);
+		border-radius: 0.064rem 0.064rem 0.32rem 0.32rem;
+	}
+}
+
+@keyframes rotateElementReverse {
+	0% {
+		left: 0;
+	}
+
+	25% {
+		left: -1.28rem;
+	}
+
+	30% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0;
+		left: 1.28rem;
+	}
+
+	90% {
+		opacity: 1;
+	}
+
+	100% {
+		left: 0;
+		opacity: 1;
+	}
+}
+
+@keyframes changeFaceReverse {
+	0% {
+		top: 0.544rem;
+		width: 0.2rem;
+		height: 0.2rem;
+		border: none;
+		border-radius: 100%;
+		background: #8e8e8e;
+	}
+}
+
+
+@keyframes changeMouthReverse {
+	0% {
+		top: 0.816rem;
+		left: 0.288rem;
+		height: 0.2rem;
+		width: 0.52rem;
+		background: #8e8e8e;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#8e8e8e), to(#a4a4a4));
+		background-image: -webkit-linear-gradient(top, #8e8e8e, #a4a4a4);
+		background-image: -o-linear-gradient(top, #8e8e8e, #a4a4a4);
+		background-image: linear-gradient(to bottom, #8e8e8e, #a4a4a4);
+		border: none;
+		border-radius: 0.064rem 0.064rem 0.32rem 0.32rem;
+	}
+
+	25% {
+		left: 0.36rem;
+	}
 }

@@ -61,47 +61,216 @@
           </div>
 
           <div id="colors-js-puns" class="">
-            <label for="color">Color</label>
-            <select id="color">
-              <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
-              <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
-              <option value="gold">Gold (JS Puns shirt only)</option> 
-              <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
-              <option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> 
-              <option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
-            </select>
-          </div>                
+            <div class="colors-js-puns-field">
+              <label for="color">Color</label>
+              <select id="color">
+                <option value="cornflowerblue">Cornflower Blue (JS Puns shirt only)</option>
+                <option value="darkslategrey">Dark Slate Grey (JS Puns shirt only)</option> 
+                <option value="gold">Gold (JS Puns shirt only)</option> 
+                <option value="tomato">Tomato (I &#9829; JS shirt only)</option>
+                <option value="steelblue">Steel Blue (I &#9829; JS shirt only)</option> 
+                <option value="dimgrey">Dim Grey (I &#9829; JS shirt only)</option> 
+              </select>
+            </div>
+            <div id="color-js-puns-preview">
+              <div id="color-js-puns-shirt">
+                <img src="img/tshirt.png" alt="">
+              </div>
+            </div>
+          </div> 
         </fieldset>
 
         <fieldset class="activities">
           <legend>Register for Activities</legend>
-          <label>
-            <input type="checkbox" name="all" data-cost="$200"> Main Conference — $200
-          </label>
-          <label>
-            <input type="checkbox" name="js-frameworks" data-day-and-time="Tuesday-T09:00:00-T12:00:00" data-cost="$100"> 
-            JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100
-          </label>
-          <label>
-            <input type="checkbox" name="js-libs" data-day-and-time="Tuesday-T13:00:00-T16:00:00" data-cost="$100"> 
-            JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100
-          </label>
-          <label>
-            <input type="checkbox" name="express" data-day-and-time="Tuesday-T09:00:00-T12:00:00" data-cost="$100"> 
-            Express Workshop — Tuesday 9am-12pm, $100
-          </label>
-          <label>
-            <input type="checkbox" name="node" data-day-and-time="Tuesday-T13:00:00-T16:00:00" data-cost="$100"> 
-            Node.js Workshop — Tuesday 1pm-4pm, $100
-          </label>          
-          <label>
-            <input type="checkbox" name="build-tools" data-day-and-time="Wednesday-T09:00:00-T12:00:00" data-cost="$100"> 
-            Build tools Workshop — Wednesday 9am-12pm, $100
-          </label>
-          <label>
-            <input type="checkbox" name="npm" data-day-and-time="Wednesday-T13:00:00-T16:00:00" data-cost="$100"> 
-            npm Workshop — Wednesday 1pm-4pm, $100
-          </label>
+          <div class="activities-inner">
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="all" data-cost="$200">
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">Main Conference</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$200</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <hr>
+
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="js-frameworks" data-day-and-time="Tuesday-T09:00:00-T12:00:00" data-cost="$100"> 
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">JavaScript Frameworks Workshop</div>
+                    <div class="activity-card__header__date">Tuesday 9am-12pm</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$100</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="js-libs" data-day-and-time="Tuesday-T13:00:00-T16:00:00" data-cost="$100"> 
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">JavaScript Libraries Workshop</div>
+                    <div class="activity-card__header__date">Tuesday 1pm-4pm</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$100</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="express" data-day-and-time="Tuesday-T09:00:00-T12:00:00" data-cost="$100">
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">Express Workshop</div>
+                    <div class="activity-card__header__date">Tuesday 9am-12pm</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$100</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="node" data-day-and-time="Tuesday-T13:00:00-T16:00:00" data-cost="$100">
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">Node.js Workshop</div>
+                    <div class="activity-card__header__date">Tuesday 1pm-4pm</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$100</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label> 
+            </div>
+            
+            <hr>
+            
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="build-tools" data-day-and-time="Wednesday-T09:00:00-T12:00:00" data-cost="$100">
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">Build tools Workshop</div>
+                    <div class="activity-card__header__date">Wednesday 9am-12pm</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$100</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="activities-block">
+              <label>
+                <input type="checkbox" name="npm" data-day-and-time="Wednesday-T13:00:00-T16:00:00" data-cost="$100"> 
+                <div class="activity-card">
+                  <div class="activity-card__header">
+                    <div class="activity-card__header__title">npm Workshop</div>
+                    <div class="activity-card__header__date">Wednesday 1pm-4pm</div>
+                  </div>
+                  <div class="activity-card__footer">
+                    <div class="activity-card__footer__price">$100</div>
+                    <div class="activity-card__footer__toggle">
+                      <div class="check-label">
+                        <div id="background"></div>
+                        <span class="face">
+                          <span class="face-container">
+                            <span class="eye left"></span>
+                            <span class="eye right"></span>
+                            <span class="mouth"></span>
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
                       
         </fieldset>
         <fieldset>
