@@ -572,9 +572,6 @@ $ccCVV.on('keyup', function () {
 * - Validates all the fields inside the form
 */
 $form.submit(function (event) {
-    // prevent refresh
-    event.preventDefault();
-
     validateName();
     validateEmail();
     validateTitle();
@@ -590,6 +587,9 @@ $form.submit(function (event) {
         $('html, body').animate({
             scrollTop: ($error.offset().top - 40)
         }, 500);
+        
+        // prevent refresh
+        event.preventDefault();
         return false;
     } else {
         alert('Everything is valid');
