@@ -447,6 +447,10 @@ $design.on('change', function () {
         $tshirtColor.addClass(options.hiddenClass);
         validateDesign();
     } else {
+        // hide Select theme option
+        $(this).find('option').first().attr('hidden', true);
+        
+        // remove error and go through
         $tshirtColor.removeClass(options.hiddenClass);
         destroyErrorHTML($design);
     }
@@ -587,7 +591,7 @@ $form.submit(function (event) {
         $('html, body').animate({
             scrollTop: ($error.offset().top - 40)
         }, 500);
-        
+
         // prevent refresh
         event.preventDefault();
         return false;
