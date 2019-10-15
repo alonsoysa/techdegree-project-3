@@ -102,6 +102,9 @@ const defaultColourOption = '<option>' + options.defaultColorText + '</option>';
 $color.find('option').addClass(options.hiddenClass);
 $color.prepend(defaultColourOption).val(options.defaultColorText);
 
+// Insert a total counter for activities
+$('<hr><div id="total"><strong>Total Cost:</strong> $<span id="total-value">0</span></div>').appendTo('.activities-inner');
+
 // Hide payment information
 $('.paypal, .bitcoin').addClass(options.hiddenClass);
 
@@ -240,13 +243,20 @@ const validateDesign = () => {
 */
 const validateActivities = () => {
     let $valid = false;
+    let $price = 0;
     
     // loop to see if one of the checkboxes is checked
     $activities.each(function () {
         if ($(this).is(':checked')) {
             $valid = true;
+            
+            // Update price number
+            $price = $price + parseInt( $(this).attr('data-cost').replace('$', '') );
         }
     });
+
+    // Update total text
+    $('#total-value').text($price);
 
     // Displays error if all checkboxes are unchecked
     if ( !$valid ) {
